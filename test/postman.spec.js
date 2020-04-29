@@ -42,7 +42,7 @@ describe('Postman', () => {
         describe('createMessage function', () => {
             it('should return a Message object', () => {
                 const message = postman.createMessage();
-                expect(message instanceof Message).toBe(true);
+                expect(message).toBeInstanceOf(Message);
             });
 
 
