@@ -1,0 +1,9 @@
+{
+  "name": "amqp-postman",
+  "version": "0.1.0",
+  "description": "A utility for publishing and consuming events using AMQP brokers, such as RabbitMQ.",
+  "main": "lib/index.js",
+  "repository": "https://github.com/rrandall91/amqp-postman.git",
+  "author": "Rashaad R. Randall <hello@rashaadrandall.com>",
+  "license": "MIT"
+}
