@@ -3,7 +3,21 @@
   "version": "0.1.0",
   "description": "A utility for publishing and consuming events using AMQP brokers, such as RabbitMQ.",
   "main": "lib/index.js",
-  "repository": "https://github.com/rrandall91/amqp-postman.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rrandall91/amqp-postman.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "keywords": [
+    "AMQP",
+    "RabbitMQ"
+  ],
   "author": "Rashaad R. Randall <hello@rashaadrandall.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^25.5.0"
+  }
 }
