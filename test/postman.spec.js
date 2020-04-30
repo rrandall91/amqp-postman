@@ -4,11 +4,11 @@ const Postman = require('../lib');
 const Message = require('../lib/message');
 const Connection = require('../lib/connection');
 const connectionString = process.env.CONNECTION_STRING || 'amqp://localhost';
-let postman, testQueue;
+let postman, queue, exchange;
 
 beforeEach(() => {
     postman = Postman(connectionString);
-    testQueue = 'test';
+    queue = 'test';
 });
 
 
@@ -88,24 +88,40 @@ describe('Postman', () => {
             });
 
 
-            it('should require a routingKey argument', () => {
-                const message = postman.createMessage();
-                const instance = () => postman.publishMessage(message);
-                expect(instance).toThrow(TypeError);
-                expect(instance).toThrowError('Missing agrument for parameter 2: Expected String');
-            });
-
-
             it('should require the message argument to be a Message object', () => {
-                const instance = () => postman.publishMessage({}, testQueue);
+                const instance = () => postman.publishMessage({});
                 expect(instance).toThrow(TypeError);
                 expect(instance).toThrowError('Invalid argument type: Expected instance of Message');
             });
 
 
-            it('should publish a message', () => {
+            it('should require either an exchange or a queue to be defined', () => {
                 const message = postman.createMessage();
-                const instance = () => postman.publishMessage(message, testQueue);
+                const instance = () => postman.publishMessage(message);
+                expect(instance).toThrow(TypeError);
+                expect(instance).toThrowError('Publishing a message requires either an exchange or a queue to be defined');
+            });
+
+
+            it('should publish a message with a defined queue', () => {
+                const message = postman.createMessage();
+                postman.setQueue('test');
+                const instance = () => postman.publishMessage(message);
+                expect(instance).not.toThrow(Error);
+            });
+
+
+            it('should publish a message with a defined exchange', () => {
+                const message = postman.createMessage();
+                postman.setExchange('test', 'direct', 'test');
+                const instance = () => postman.publishMessage(message);
+                expect(instance).not.toThrow(Error);
+            });
+
+
+            it.skip('should publish a message', () => {
+                const message = postman.createMessage();
+                const instance = () => postman.publishMessage(message);
                 expect(instance).not.toThrow(Error);
             });
         });
