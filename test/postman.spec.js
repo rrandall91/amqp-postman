@@ -3,12 +3,13 @@
 const Postman = require('../lib');
 const Message = require('../lib/message');
 const Connection = require('../lib/connection');
+const Exchange = require('../lib/exchange');
+const Queue = require('../lib/queue');
 const connectionString = process.env.CONNECTION_STRING || 'amqp://localhost';
-let postman, queue, exchange;
+let postman;
 
 beforeEach(() => {
     postman = Postman(connectionString);
-    queue = 'test';
 });
 
 
@@ -76,6 +77,30 @@ describe('Postman', () => {
                 const message = postman.createMessage(content, options);
                 expect(message.content).toEqual(expect.objectContaining(content));
                 expect(message.options).toEqual(expect.objectContaining(options));
+            });
+        });
+
+
+        describe('setExchange function', () => {
+            it('should return an Exchange object', () => {
+                const exchange = postman.setExchange('example', 'direct', 'example.test', {
+                    durable: true
+                });
+                expect(exchange).toEqual(Exchange('example', 'direct', 'example.test', {
+                    durable: true
+                }));
+            });
+        });
+
+
+        describe('setQueue function', () => {
+            it('should return an Exchange object', () => {
+                const queue = postman.setQueue('example', {
+                    durable: true
+                });
+                expect(queue).toEqual(Queue('example', {
+                    durable: true
+                }));
             });
         });
 
