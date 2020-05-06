@@ -1,6 +1,6 @@
 {
   "name": "amqp-postman",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A utility for publishing and consuming events using AMQP brokers, such as RabbitMQ.",
   "main": "lib/index.js",
   "repository": {
