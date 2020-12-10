@@ -8,6 +8,7 @@
     "url": "https://github.com/rrandall91/amqp-postman.git"
   },
   "scripts": {
+    "lint": "eslint . --fix",
     "test": "jest",
     "test:watch": "jest --watchAll"
   },
@@ -17,7 +18,28 @@
   ],
   "author": "Rashaad R. Randall <hello@rashaadrandall.com>",
   "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix"
+    ]
+  },
   "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jest": "^23.18.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5",
     "jest": "^25.5.0"
   },
   "dependencies": {
