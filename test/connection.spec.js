@@ -1,35 +1,54 @@
-'use strict';
+const Connection = require("../lib/connection");
 
-const Connection = require('../lib/connection');
-const connectionString = process.env.CONNECTION_STRING || 'amqp://localhost'
+const connectionString = "amqp://guest:guest@localhost/";
 let connection;
 
-
 beforeEach(() => {
-    connection = Connection(connectionString);
+  connection = Connection(connectionString);
 });
-
 
 afterEach(() => connection.close());
 
+describe(Connection, () => {
+  it("should exist", () => {
+    expect(typeof Connection).toBe("function");
+  });
 
-describe('Connection', () => {
-    it('should exist', () => {
-        expect(typeof Connection).toBe('function');
+  it("should return an instance of Connection", () => {
+    expect(connection).toBeInstanceOf(Connection);
+  });
+
+  describe("connectionString property", () => {
+    it("should exist", () => {
+      expect(connection).toHaveProperty("connectionString");
     });
 
-
-    describe('client property', () => {
-        it('should be a ChannelModel', async () => {
-            const conn = await connection.initialize();
-            expect(conn.constructor.name).toBe('ChannelModel');
-        });
+    it("should return an error if not present", () => {
+      expect(() => Connection()).toThrow(TypeError);
     });
 
+    it("should return an error if not a string", () => {
+      expect(() => Connection(123)).toThrow(TypeError);
+    });
+  });
 
-    describe('close function', () => {
-        it('should exist', () => {
-            expect(typeof connection.close).toBe('function');
-        })
-    })
+  describe("connect function", () => {
+    it ("should exist", () => {
+      expect(connection).toHaveProperty("open");
+      expect(typeof connection.open).toBe("function");
+    });
+
+    it("should return an instance of ChannelModel", async () => {
+      const conn = await connection.open();
+
+      expect(conn.constructor.name).toBe("ChannelModel");
+    });
+  });
+
+  describe("close function", () => {
+    it ("should exist", () => {
+      expect(connection).toHaveProperty("close");
+      expect(typeof connection.close).toBe("function");
+    });
+  });
 });

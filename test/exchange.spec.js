@@ -1,104 +1,87 @@
-'use strict';
+const Exchange = require("../lib/exchange");
 
-const Exchange = require('../lib/exchange');
-let exchange, name, type, routingKey, options;
-
+let exchange;
 
 beforeEach(() => {
-    name = 'Test';
-    type = 'topic';
-    routingKey = '';
-    options = {
-        durable: false
-    };
-
-    exchange = Exchange(name, type, routingKey, options);
+  exchange = Exchange("exchange", "topic");
 });
 
+describe(Exchange, () => {
+  it("should exist", () => {
+    expect(typeof Exchange).toBe("function");
+  });
 
-describe('Exchange', () => {
-    it('should exist', () => {
-        expect(typeof Exchange).toBe('function');
+  it("should return an instance of Exchange", () => {
+    expect(exchange).toBeInstanceOf(Exchange);
+  });
+
+  describe("name property", () => {
+    it("should exist", () => {
+      expect(exchange).toHaveProperty("name");
     });
 
-
-    describe('name property', () => {
-        it('should be required', () => {
-            const instance = () => Exchange();
-            expect(instance).toThrow(TypeError);
-            expect(instance).toThrowError('Invalid argument for parameter 1: Expected string');
-        });
-
-
-        it('should be a string value', () => {
-            const instance = () => Exchange(123, type);
-            expect(instance).toThrow(TypeError);
-            expect(instance).toThrowError('Invalid argument for parameter 1: Expected string');
-        });
+    it("should return an error if not present", () => {
+      expect(() => Exchange()).toThrow();
     });
 
-
-    describe('type property', () => {
-        it('should be required', () => {
-            const instance = () => Exchange(name);
-            expect(instance).toThrow(TypeError);
-            expect(instance).toThrowError('Invalid argument for parameter 2: Expected string');
-        });
-
-
-        it('should be a string value', () => {
-            const instance = () => Exchange(name, 1);
-            expect(instance).toThrow(TypeError);
-            expect(instance).toThrowError('Invalid argument for parameter 2: Expected string');
-        });
-
-
-        it('should be set to "direct" if a valid type is not provided', () => {
-            const exchange = Exchange(name, 'test', 'test');
-            expect(exchange.type).toBe('direct');
-        })
+    it("should be a string", () => {
+      expect(typeof exchange.name).toBe("string");
     });
 
+    it("should be set by the constructor", () => {
+      const exchangeName = "random-test-string";
+      const e = Exchange(exchangeName, "topic");
 
-    describe('routingKey property', () => {
-        it('should be required', () => {
-            const instance = () => Exchange(name, type);
-            expect(instance).toThrow(TypeError);
-            expect(instance).toThrowError('Invalid argument for parameter 3: Expected string');
-        });
+      expect(e.name).toBe(exchangeName);
+    });
+  });
 
-
-        it('should be a string value', () => {
-            const instance = () => Exchange(name, type, 1);
-            expect(instance).toThrow(TypeError);
-            expect(instance).toThrowError('Invalid argument for parameter 3: Expected string');
-        });
-
-
-        it('should be the provided value', () => {
-            expect(exchange.routingKey).toBe(routingKey);
-        })
+  describe("type property", () => {
+    it("should exist", () => {
+      expect(exchange).toHaveProperty("type");
     });
 
-
-    describe('options property', () => {
-        it('should equal default value if not provided', () => {
-            exchange = Exchange(name, type, routingKey, options);
-            expect(typeof exchange.options).not.toBe('undefined');
-            expect(exchange.options).not.toBe(null);
-            expect(exchange.options).toEqual(expect.objectContaining(exchange._defaultOptions));
-        });
-
-
-        it('should only accept an object', () => {
-            const exchange = Exchange(name, type, routingKey, 'invalid');
-            expect(exchange.options).not.toEqual('invalid');
-            expect(exchange.options).toEqual(expect.objectContaining(exchange._defaultOptions));
-        });
-
-
-        it('should equal provided value', () => {
-            expect(exchange.options).toEqual(expect.objectContaining(options));
-        });
+    it("should return an error if not present", () => {
+      expect(() => Exchange("test")).toThrow(TypeError);
     });
+
+    it("should return an error if invalid option", () => {
+      expect(() => Exchange("test", "invalid-type")).toThrow(TypeError);
+    });
+
+    it("should be a string", () => {
+      expect(typeof exchange.type).toBe("string");
+    });
+
+    it("should be set by the constructor", () => {
+      const exchangeType = "direct";
+      const e = Exchange("random-test-string", exchangeType);
+
+      expect(e.type).toBe(exchangeType);
+    });
+  });
+
+  describe("options property", () => {
+    it("should exist", () => {
+      expect(exchange).toHaveProperty("options");
+    });
+
+    it("should be an object", () => {
+      expect(typeof exchange.options).toBe("object");
+    });
+  });
+
+  describe("setRoutingKey function", () => {
+    it ("should exist", () => {
+      expect(typeof exchange.setRoutingKey).toBe("function");
+    });
+  
+    it("should set the routingKey property", () => {
+      const routingKey = "routing.key";
+
+      expect(typeof exchange.routingKey).toBe("string");
+      exchange.setRoutingKey(routingKey);
+      expect(exchange.routingKey).toBe(routingKey);
+    });
+  });
 });
