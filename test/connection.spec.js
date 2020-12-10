@@ -9,7 +9,7 @@ beforeEach(() => {
 
 afterEach(() => connection.close());
 
-describe("Connection", () => {
+describe(Connection, () => {
   it("should exist", () => {
     expect(typeof Connection).toBe("function");
   });
@@ -24,7 +24,7 @@ describe("Connection", () => {
     });
 
     it("should return an error if not present", () => {
-      expect(() => Connection()).toThrow(SyntaxError);
+      expect(() => Connection()).toThrow(TypeError);
     });
 
     it("should return an error if not a string", () => {
