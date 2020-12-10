@@ -8,6 +8,7 @@
     "url": "https://github.com/rrandall91/amqp-postman.git"
   },
   "scripts": {
+    "pretest": "npm run lint",
     "lint": "eslint . --fix",
     "test": "jest",
     "test:watch": "jest --watchAll"
@@ -43,6 +44,6 @@
     "jest": "^25.5.0"
   },
   "dependencies": {
-    "amqplib": "^0.5.5"
+    "amqplib": "^0.5.6"
   }
 }
